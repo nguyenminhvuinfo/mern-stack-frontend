@@ -1,20 +1,22 @@
-# Sử dụng Node.js làm base image
-FROM node:18
-
-# Thiết lập thư mục làm việc trong container
+# Build stage
+FROM node:18 as build
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json
 COPY package*.json ./
-
-# Cài đặt dependencies
 RUN npm install
 
-# Sao chép toàn bộ mã nguồn
 COPY . .
+RUN npm run build
 
-# Mở cổng 3000 (hoặc cổng mà frontend sử dụng)
+# Serve bằng một static server (vd: serve)
+FROM node:18-slim
+WORKDIR /app
+
+RUN npm install -g serve
+COPY --from=build /app/dist ./dist
+
+# Render set biến môi trường PORT, app phải lắng nghe cổng đó
+ENV PORT 3000
 EXPOSE 3000
 
-# Lệnh chạy ứng dụng
-CMD ["npm", "run", "dev"]
+CMD ["serve", "-s", "dist", "-l", "0.0.0.0:$PORT"]

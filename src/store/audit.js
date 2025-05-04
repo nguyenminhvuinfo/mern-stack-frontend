@@ -1,26 +1,26 @@
 import { create } from 'zustand';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const useAuditStore = create((set) => ({
   auditLogs: [],
   isLoading: false,
   error: null,
 
-  // Hàm gọi API để lấy nhật ký
   fetchAuditLogs: async () => {
-    set({ isLoading: true, error: null }); // Đặt trạng thái loading khi bắt đầu
+    set({ isLoading: true, error: null });
     const token = localStorage.getItem("token");
 
-    // Kiểm tra token trước khi thực hiện API
     if (!token) {
       set({ error: "Không có token, vui lòng đăng nhập.", isLoading: false });
       return;
     }
 
     try {
-      const response = await fetch('/api/auditlogs', {
+      const response = await fetch(`${API_BASE_URL}/api/auditlogs`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`, // Gửi token trong header
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
       });

@@ -7,13 +7,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-  server:{
-    proxy:{
-      "/api":{
-        target:"https://mern-stack-backend-rew0.onrender.com",
-        changeOrigin: true,
-        secure: false,
-      }
-    }
+  server: {
+    // Proxy removed
   }
 })

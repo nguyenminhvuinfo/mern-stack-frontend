@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
@@ -13,7 +15,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true });
     
     try {
-      const res = await fetch("/api/authen/login", {
+      const res = await fetch(`${API_BASE_URL}/api/authen/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
@@ -48,7 +50,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true });
     
     try {
-      const res = await fetch("/api/authen/register", {
+      const res = await fetch(`${API_BASE_URL}/api/authen/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -83,7 +85,7 @@ export const useAuthStore = create((set) => ({
     
     try {
       // Kiểm tra token hợp lệ với backend (nếu có endpoint)
-      const res = await fetch("/api/authen/verify-token", {
+      const res = await fetch(`${API_BASE_URL}/api/authen/verify-token`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -114,7 +116,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true });
     
     try {
-      const res = await fetch("/api/authen/forgot-password", {
+      const res = await fetch(`${API_BASE_URL}/api/authen/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -143,7 +145,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true });
     
     try {
-      const res = await fetch("/api/authen/verify-reset-code", {
+      const res = await fetch(`${API_BASE_URL}/api/authen/verify-reset-code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, resetCode }),
@@ -173,7 +175,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true });
     
     try {
-      const res = await fetch("/api/authen/reset-password", {
+      const res = await fetch(`${API_BASE_URL}/api/authen/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ resetToken, newPassword }),

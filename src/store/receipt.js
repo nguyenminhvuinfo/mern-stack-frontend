@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const useReceiptStore = create((set) => ({
     receipts: [],
     setReceipts: (receipts) => set({ receipts }),
@@ -17,7 +19,7 @@ export const useReceiptStore = create((set) => ({
         }
         
         try {
-            const res = await fetch("/api/invoices", {
+            const res = await fetch(`${API_BASE_URL}/api/invoices`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,7 +50,7 @@ export const useReceiptStore = create((set) => ({
         }
         
         try {
-            const res = await fetch("/api/invoices", {
+            const res = await fetch(`${API_BASE_URL}/api/invoices`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -73,7 +75,7 @@ export const useReceiptStore = create((set) => ({
         }
         
         try {
-            const res = await fetch(`/api/invoices/${id}`, {
+            const res = await fetch(`${API_BASE_URL}/api/invoices/${id}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -95,7 +97,7 @@ export const useReceiptStore = create((set) => ({
         }
         
         try {
-            const res = await fetch(`/api/invoices/${receiptId}`, {
+            const res = await fetch(`${API_BASE_URL}/api/invoices/${receiptId}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`
